@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shubh Vijayadashami 🙏</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background: linear-gradient(135deg, #3a0007, #1a0003);
+            color: #fff;
+            font-family: 'Segoe UI', Georgia, serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            overflow: hidden;
+            position: relative;
+        }
+        .container {
+            background: rgba(0, 0, 0, 0.75);
+            padding: 30px;
+            border-radius: 20px;
+            border: 2px solid #ffaa00;
+            box-shadow: 0 0 35px rgba(255, 170, 0, 0.4);
+            width: 90%;
+            max-width: 480px;
+            z-index: 10;
+            backdrop-filter: blur(8px);
+        }
+        h1 {
+            color: #ffcc00;
+            font-size: 2rem;
+            text-shadow: 0 0 10px #ff4500;
+            margin-bottom: 15px;
+        }
+        .ravan-container {
+            width: 200px;
+            height: 250px;
+            margin: 20px auto;
+            position: relative;
+        }
+        .ravan-img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            transition: all 0.5s ease;
+        }
+        
+        /* 🔥 Continuous Burning & Fire Animation Effect */
+        .continuous-burning {
+            animation: intenseFire 0.4s infinite alternate, shakeEffect 0.2s infinite;
+            filter: sepia(0.8) saturate(6) hue-rotate(-45deg) brightness(1.3) 
+                    drop-shadow(0 0 25px #ff3300) drop-shadow(0 0 45px #ffcc00);
+        }
+
+        /* Aag ki lapton ka up-down flashing effect */
+        @keyframes intenseFire {
+            0% { 
+                transform: scale(1); 
+                filter: sepia(0.8) saturate(6) hue-rotate(-45deg) brightness(1.2) drop-shadow(0 0 20px #ff3300);
+            }
+            100% { 
+                transform: scale(1.04); 
+                filter: sepia(0.9) saturate(8) hue-rotate(-35deg) brightness(1.5) drop-shadow(0 0 40px #ff6600) drop-shadow(0 0 60px #ffcc00);
+            }
+        }
+
+        /* Ravan ke kaanpne (shake) ka effect jab aag lage */
+        @keyframes shakeEffect {
+            0% { translate: 1px 1px; }
+            20% { translate: -1px -1px; }
+            40% { translate: -2px 0px; }
+            60% { translate: 1px 2px; }
+            80% { translate: -1px 1px; }
+            100% { translate: 2px 1px; }
+        }
+
+        #wishes-text {
+            font-size: 1.2rem;
+            color: #ffdd99;
+            font-weight: 500;
+            min-height: 80px;
+            margin: 20px 0;
+            line-height: 1.6;
+        }
+        .action-btn {
+            background: linear-gradient(90deg, #ff4500, #ffcc00);
+            color: #000;
+            border: none;
+            padding: 14px 35px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border-radius: 30px;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(255, 69, 0, 0.4);
+            transition: 0.3s ease;
+        }
+        .action-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 25px rgba(255, 204, 0, 0.6);
+        }
+        .sparkle {
+            position: absolute;
+            background: #ffaa00;
+            width: 3px;
+            height: 3px;
+            border-radius: 50%;
+            animation: fly 4s linear infinite;
+            opacity: 0.6;
+        }
+        @keyframes fly {
+            0% { transform: translateY(105vh) translateX(0); opacity: 0; }
+            50% { opacity: 0.8; }
+            100% { transform: translateY(-5vh) translateX(40px); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Vijayadashami ki Hardik Shubhkamnaye! 🙏</h1>
+        
+        <div class="ravan-container">
+            <!-- Yahan wahi ravan.png file use ho rahi hai jo aapne repository me daali hai -->
+            <img src="ravan.png" id="ravanImg" class="ravan-img" alt="Ravan">
+        </div>
+        
+        <div id="wishes-text">पावन पर्व पर रावण दहन के लिए नीचे छुएं... 👇</div>
+
+        <button class="action-btn" id="shootBtn">🏹 श्री राम बाण चलाएं</button>
+    </div>
+
+    <audio id="festiveMusic" loop>
+        <source src="music.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        const textArray = [
+            "बुराई पर अच्छाई और असत्य पर सत्य की सदा जीत हो... ✨",
+            "इस पावन अवसर पर आपके जीवन से दुखों का नाश हो। 🙏",
+            "विजयादशमी का यह पर्व आपके परिवार में सुख, समृद्धि और शांति लाए। 🌸",
+            "आपको और आपके पूरे परिवार को दशहरे की हार्दिक शुभकामनाएं! 🎉",
+            "जय श्री राम! 🏹"
+        ];
+        
+        let arrayIndex = 0;
+        let charIndex = 0;
+        const wishesElement = document.getElementById("wishes-text");
+        const ravanImg = document.getElementById("ravanImg");
+        const shootBtn = document.getElementById("shootBtn");
+        const music = document.getElementById("festiveMusic");
+
+        function type() {
+            if (charIndex < textArray[arrayIndex].length) {
+                wishesElement.innerHTML += textArray[arrayIndex].charAt(charIndex);
+                charIndex++;
+                setTimeout(type, 60);
+            } else {
+                setTimeout(erase, 3000);
+            }
+        }
+
+        function erase() {
+            if (charIndex > 0) {
+                wishesElement.innerHTML = textArray[arrayIndex].substring(0, charIndex - 1);
+                charIndex--;
+                setTimeout(erase, 30);
+            } else {
+                arrayIndex = (arrayIndex + 1) % textArray.length;
+                setTimeout(type, 500);
+            }
+        }
+
+        shootBtn.addEventListener("click", () => {
+            // Ravan me lagatar aag lagane ka class add kiya
+            ravanImg.classList.add("continuous-burning");
+            
+            music.play().catch(err => console.log("Audio Error:", err));
+            
+            shootBtn.style.display = "none";
+            wishesElement.innerHTML = "";
+            
+            setTimeout(() => {
+                type();
+            }, 500);
+        });
+
+        function createSparkle() {
+            const sparkle = document.createElement("div");
+            sparkle.classList.add("sparkle");
+            sparkle.style.left = Math.random() * 100 + "vw";
+            sparkle.style.animationDuration = Math.random() * 2 + 3 + "s";
+            document.body.appendChild(sparkle);
+            setTimeout(() => sparkle.remove(), 5000);
+        }
+        setInterval(createSparkle, 250);
+    </script>
+</body>
+</html>
